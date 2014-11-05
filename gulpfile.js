@@ -5,6 +5,7 @@ var gulp        = require('gulp');
 var reactify    = require('reactify');
 var reload      = browserSync.reload;
 var source      = require('vinyl-source-stream');
+var watchify    = require('watchify');
 
 gulp.task('clean', function() {
   del(['.tmp', 'dist'] );
@@ -23,15 +24,33 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('browserify', function(){
-  var b = browserify();
-  b.transform(reactify); // use the reactify transform
-  b.add('./app/js/main.js');
-  return b.bundle()
-    .pipe(source('main.js'))
-    .pipe(gulp.dest('./.tmp/scripts/'));
+  browserifyShare();
 });
 
+function browserifyShare(){
+  // you need to pass these three config option to browserify
+  var b = browserify({
+    cache: {},
+    packageCache: {},
+    fullPaths: true
+  });
+  b = watchify(b);
+  b.on('update', function(){
+    bundleShare(b);
+  });
+
+  b.transform(reactify);
+  b.add('./app/js/main.js');
+  bundleShare(b);
+}
+
+function bundleShare(b) {
+  b.bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./.tmp/scripts/'))
+    .pipe(browserSync.reload({stream:true}));
+}
+
 gulp.task('default', ['clean', 'browserify', 'browser-sync'], function () {
-    gulp.watch( ["app/*.html", ".tmp/scripts/**.*js"], reload );
-    gulp.watch( ["app/scripts/**/*.{js/jsx}"], ['browserify', 'reload'])
+  gulp.watch( ["app/*.html"], reload );
 });
