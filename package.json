@@ -1,0 +1,29 @@
+{
+  "name": "react-fun",
+  "version": "1.0.0",
+  "description": "Havin' fun with React!",
+  "main": "index.js",
+  "devDependencies": {
+    "browser-sync": "^1.6.3",
+    "browserify": "^6.2.0",
+    "del": "^0.1.3",
+    "gulp": "^3.8.10",
+    "react": "^0.12.0",
+    "react-tools": "^0.12.0",
+    "reactify": "^0.15.2",
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiwcx/react-fun.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiwcx/react-fun/issues"
+  },
+  "homepage": "https://github.com/xiwcx/react-fun"
+}
